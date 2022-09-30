@@ -12,7 +12,7 @@ def parse_scenario(initial_scenario):
         
         fp.readline() # skip START line
         
-        scenario.write(f"POSITIONS=[") 
+        scenario.write(f"INITIAL_POSITIONS=[") 
         for _ in range(int(N)):
             pos = fp.readline().strip()
             if _ == int(N)-1: 
@@ -30,7 +30,7 @@ def parse_scenario(initial_scenario):
             else: 
                 scenario.write(f"{pos[2]}, ")
 
-        print("Parsing initial scenario configuration...")
+        print("Parsing initial scenario configuration...\n")
                              
     finally:    
         fp.close()

@@ -27,3 +27,8 @@ GOAL:
 1 5     -> agent nr and ending vertex
 2 2
 3 1
+
+----------
+N=3;
+INITIAL_POSITIONS=[1, 2, 5];
+GOAL=[5, 2, 1];
