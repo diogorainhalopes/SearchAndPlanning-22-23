@@ -42,12 +42,8 @@ constraint forall(i in AgentsRange) (
 constraint forall (i in MovesRange) (
                    alldifferent( [ Moves[i,j] | j in AgentsRange ]) ); 
 
-constraint forall (i in MovesRange) (
-    if Moves[i,j] > 0 then Moves[
-
-
-% all different rows? prevent cycles "row(Moves, i)""
-% constraint alldifferent( Moves); 
+constraint forall (i in AgentsRange) (
+                   Moves[size,i] == GOAL[i]); 
 
 
 solve minimize size;
