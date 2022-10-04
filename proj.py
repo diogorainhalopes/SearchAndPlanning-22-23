@@ -17,7 +17,7 @@ def main():
         sys.exit("Usage: proj initial_graph.txt initial_scenario.txt")
     graph = parse_graph(sys.argv[1])
     scenario = parse_scenario(sys.argv[2])
-    os.system(f"minizinc {MODEL} {graph} {scenario} > solution.txt")
+    os.system(f"minizinc --solver Chuffed {MODEL} {graph} {scenario} > solution.txt")
     os.system(f"type solution.txt")
 
 if __name__ == "__main__":

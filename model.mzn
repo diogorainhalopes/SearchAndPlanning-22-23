@@ -18,9 +18,7 @@ int: MaxMoves = V^3;
 set of int: AgentsRange = 1..N;
 set of int: VertexRange = 1..V;
 set of int: EdgesRange = 1..E;
-set of int: MovesRange = 0..MaxMoves;
-
-
+set of int: MovesRange = 1..MaxMoves;
 
 % input arrays 
 array[AgentsRange] of VertexRange: INITIAL_POSITIONS;
@@ -28,33 +26,41 @@ array[AgentsRange] of VertexRange: GOAL;
 array[EdgesRange, 1..2] of int: EDGES;
 
 % vars
-% array[AgentsRange] of var VertexRange: positions;
 array[MovesRange, AgentsRange] of var VertexRange: Moves;
-
-var 0..MaxMoves : size = card({ Moves[i, j] | i in MovesRange, j in AgentsRange }) div 3;
-
+var 2..MaxMoves: minspan;
 
 % fill 1st move
-constraint forall(i in AgentsRange) (
-    if INITIAL_POSITIONS[i] > 0 then Moves[0,i] = INITIAL_POSITIONS[i] else true endif );
+constraint Moves[1,..] = INITIAL_POSITIONS;
 
-% no overlap in agents/ in-rows
-constraint forall (i in MovesRange) (
-                   alldifferent( [ Moves[i,j] | j in AgentsRange ]) ); 
+% no cycles/no rows repeat
+constraint forall(i in 1..minspan) ( alldifferent( [ Moves[i,j] | j in AgentsRange ]) ); 
 
-constraint forall (i in AgentsRange) (
-                   Moves[size,i] == GOAL[i]); 
+% no agents in the same node simultaneously
+constraint forall(j in AgentsRange, i in 1..minspan ) ( alldifferent( [ Moves[i,j] ]) ); 
+
+% after minspan, all positions dont change, therefore reaching thr goal
+constraint forall(i in minspan..MaxMoves) ( Moves[i,..] == GOAL); 
 
 
-solve minimize size;
+constraint forall(i in 2..minspan, j in AgentsRange) (
+        (exists(k in EdgesRange) (
+            (Moves[i,j] == EDGES[k, 1]  /\ Moves[i - 1,j] == EDGES[k, 2])))
+        \/ (exists(k in EdgesRange) (
+                (Moves[i,j] == EDGES[k, 2]  /\ Moves[i - 1,j] == EDGES[k, 1])))
+        /\ (not(exists(k in [Moves[i - 1, l] | l in AgentsRange]) ( Moves[i,j] == k)))
+        \/ (Moves[i,j] == Moves[i - 1,j])
+);
+
+
+solve minimize minspan;
 
 output [ "Initial positions: \(INITIAL_POSITIONS)\n" ++
             "Goal positions: \(GOAL)\n"] ++ 
-            ["No. of moves: \(size)\n"] ++
+            ["No. of moves: \(minspan - 1)\n"] ++
             [if j == 1 then "i=\(i)\t" ++ "\(j):" ++ show(Moves[i,j]) ++ "\t"
                 elseif j == N then "\(j):" ++ show(Moves[i,j]) ++ "\n"
                 else  "\(j):" ++ show(Moves[i,j])  ++ "\t" endif 
-                | i in 0..fix(10 - 1), j in AgentsRange]; % replace 10 for "size"
+                | i in 1..fix(minspan), j in AgentsRange];
             
 
 
