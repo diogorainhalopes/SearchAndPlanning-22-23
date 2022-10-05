@@ -3,6 +3,16 @@ import os
 OUTPUT_DIR = "outputs"
 OUTPUT_FILENAME = os.path.join(OUTPUT_DIR,'graph.dzn')
 
+def read_nodes(edge):
+    e = ""
+    for i in edge:
+        if i == '\n' or i == '':
+            return e
+        if i != ' ':
+            e += i
+        else: e+= ", "
+    return e
+
 def parse_graph(initial_graph):
     try:
         fp = open(f"{initial_graph}",'r',encoding = 'utf-8')
@@ -19,9 +29,9 @@ def parse_graph(initial_graph):
              
         for edge in edges:
             if edges.index(edge) == int(E) - 1:
-                graph.write(f"{edge[0]}, {edge[2]}|];\n")
+                graph.write(f"{read_nodes(edge)}|];\n")
             else:
-                graph.write(f"{edge[0]}, {edge[2]}|\n")
+                graph.write(f"{read_nodes(edge)}|\n")
     finally:    
         fp.close()
         graph.close()

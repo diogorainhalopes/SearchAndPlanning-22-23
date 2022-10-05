@@ -3,6 +3,18 @@ import os
 OUTPUT_DIR = "outputs"
 OUTPUT_FILENAME = os.path.join(OUTPUT_DIR,'scenario.dzn')
 
+def read_positions(pos):
+    p = ""
+    index = 0
+    for i in range(0,len(pos)):
+        if pos[i] == ' ':
+            index = i+1
+            break
+    while (index < len(pos)):
+        p += pos[index]
+        index += 1
+    return p
+
 def parse_scenario(initial_scenario):
     try:
         fp = open(f"{initial_scenario}",'r',encoding = 'utf-8')
@@ -16,9 +28,9 @@ def parse_scenario(initial_scenario):
         for _ in range(int(N)):
             pos = fp.readline().strip()
             if _ == int(N)-1: 
-                scenario.write(f"{pos[2]}];\n")
+                scenario.write(f"{read_positions(pos)}];\n")
             else: 
-                scenario.write(f"{pos[2]}, ")
+                scenario.write(f"{read_positions(pos)}, ")
             
         fp.readline() # skip GOAL line
 
@@ -26,9 +38,9 @@ def parse_scenario(initial_scenario):
         for _ in range(int(N)):
             pos = fp.readline().strip()
             if _ == int(N)-1: 
-                scenario.write(f"{pos[2]}];\n")
+                scenario.write(f"{read_positions(pos)}];\n")
             else: 
-                scenario.write(f"{pos[2]}, ")
+                scenario.write(f"{read_positions(pos)}, ")
 
         print("Parsing initial scenario configuration...\n")
                              
