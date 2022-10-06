@@ -15,6 +15,7 @@ def read_nodes(edge):
 
 def parse_graph(initial_graph):
     try:
+        print("Parsing initial graph configuration...")
         fp = open(f"{initial_graph}",'r',encoding = 'utf-8')
         V = fp.readline().strip()
         while(V[0] == "#"): 
@@ -22,7 +23,6 @@ def parse_graph(initial_graph):
         E = fp.readline().strip()
         edges = fp.readlines()
         
-        print("Parsing initial graph configuration...")
         
         graph = open(f"{OUTPUT_FILENAME}",'w',encoding = 'utf-8')
         graph.write(f"V={V};\n")

@@ -5,7 +5,7 @@ int: N; % No. of agents
 int: V; % No. of vertices
 int: E; % No. of edges
 
-int: MaxMoves = E*2; %V^3; 
+int: MaxMoves = E*3; %V^3; 
 % https://people.cs.rutgers.edu/~kb572/pubs/parallel_push_swap.pdf
 %  It shows that a cubic number of moves as a function of the number of graph
 % vertices is sufficient and that the decision problem can be

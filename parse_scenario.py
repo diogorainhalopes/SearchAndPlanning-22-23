@@ -17,6 +17,7 @@ def read_positions(pos):
 
 def parse_scenario(initial_scenario):
     try:
+        print("Parsing initial scenario configuration...\n")
         fp = open(f"{initial_scenario}",'r',encoding = 'utf-8')
         scenario = open(f"{OUTPUT_FILENAME}",'w',encoding = 'utf-8')
         
@@ -46,7 +47,6 @@ def parse_scenario(initial_scenario):
             else: 
                 scenario.write(f"{read_positions(pos)}, ")
 
-        print("Parsing initial scenario configuration...\n")
                              
     finally:    
         fp.close()
