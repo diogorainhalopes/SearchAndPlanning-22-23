@@ -17,6 +17,8 @@ def parse_graph(initial_graph):
     try:
         fp = open(f"{initial_graph}",'r',encoding = 'utf-8')
         V = fp.readline().strip()
+        while(V[0] == "#"): 
+            V = fp.readline().strip() 
         E = fp.readline().strip()
         edges = fp.readlines()
         

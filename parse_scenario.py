@@ -19,7 +19,11 @@ def parse_scenario(initial_scenario):
     try:
         fp = open(f"{initial_scenario}",'r',encoding = 'utf-8')
         scenario = open(f"{OUTPUT_FILENAME}",'w',encoding = 'utf-8')
+        
         N = fp.readline().strip()
+        while(N[0] == "#"): 
+            N = fp.readline().strip()    
+                    
         scenario.write(f"N={N};\n")
         
         fp.readline() # skip START line
