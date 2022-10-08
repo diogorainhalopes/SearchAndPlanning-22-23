@@ -1,7 +1,4 @@
-import os
-
-OUTPUT_DIR = "outputs"
-OUTPUT_FILENAME = os.path.join(OUTPUT_DIR,'graph.dzn')
+OUTPUT_FILENAME = "data/graph.dzn"
 
 def read_nodes(edge):
     e = ""
@@ -37,6 +34,6 @@ def parse_graph(initial_graph):
     finally:    
         fp.close()
         graph.close()
-    return "outputs/graph.dzn"
+    return f"{OUTPUT_FILENAME}"
 
 

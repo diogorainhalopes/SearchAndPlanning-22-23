@@ -1,7 +1,4 @@
-import os
-
-OUTPUT_DIR = "outputs"
-OUTPUT_FILENAME = os.path.join(OUTPUT_DIR,'scenario.dzn')
+OUTPUT_FILENAME = "data/scenario.dzn"
 
 def read_positions(pos):
     p = ""
@@ -17,7 +14,7 @@ def read_positions(pos):
 
 def parse_scenario(initial_scenario):
     try:
-        print("Parsing initial scenario configuration...\n")
+        print("Parsing initial scenario configuration...")
         fp = open(f"{initial_scenario}",'r',encoding = 'utf-8')
         scenario = open(f"{OUTPUT_FILENAME}",'w',encoding = 'utf-8')
         
@@ -51,4 +48,4 @@ def parse_scenario(initial_scenario):
     finally:    
         fp.close()
         scenario.close()
-    return "outputs/scenario.dzn"
+    return f"{OUTPUT_FILENAME}"
