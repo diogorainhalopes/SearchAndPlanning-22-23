@@ -22,6 +22,7 @@ def bfs(edges, start, goal):
                 queue.append(npath)
                 visited.append(next_vertex)
         vertex += 1
+    return []
 
 def len_bfs(edges, starts, goals):
     times = [0] * len(starts)

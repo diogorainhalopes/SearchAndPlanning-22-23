@@ -6,6 +6,7 @@
 
 import sys
 import os
+import random
 from parse_graph import parse_graph
 from parse_scenario import parse_scenario
 from parse_solution import parse_solution
@@ -13,13 +14,13 @@ from parse_solution import parse_solution
 MZ = "minizinc"
 MODEL = "model.mzn"
 SOLVER = "Chuffed"
-TEMP_SOLUTION = "temp_solution.txt"
+TEMP_SOLUTION = "temp_solution" + str(random.randint(0, 100000)) + ".txt"
 
 def main():
 
     graph = parse_graph(sys.argv[1])
     scenario = parse_scenario(sys.argv[2])
-    os.system(f"{MZ} --solver {SOLVER} {MODEL} {graph} {scenario} > {TEMP_SOLUTION}")
+    os.system(f"{MZ} --solver {SOLVER} {MODEL} {graph} {scenario} -p 16 > {TEMP_SOLUTION}")
     parse_solution(f"{TEMP_SOLUTION}")
     os.remove(f"{TEMP_SOLUTION}")
             
