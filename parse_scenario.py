@@ -45,8 +45,11 @@ def parse_scenario(initial_scenario):
             else: 
                 scenario.write(f"{temp}, ")
         
-        makespans = bfs.len_bfs(pg.parse_edges, init, gl)
-        scenario.write(f"minspan={max(makespans)};\n")  
+        makespans = bfs.len_bfs(pg.parse_edges, init, gl) 
+        global max_ms 
+        max_ms = max(makespans)-2
+        #scenario.write(f"minspan={max_ms};\n") 
+         
         if ((int(pg.V)) - int(N) <= 3): 
             scenario.write(f"MaxMoves={int(sum(makespans) * 1.2)};\n")  
         else:

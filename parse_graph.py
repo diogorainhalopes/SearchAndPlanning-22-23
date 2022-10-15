@@ -1,14 +1,10 @@
 #!/usr/bin/python
 OUTPUT_FILENAME = "data/graph.dzn"
 
-global parse_edges
 def read_nodes(edge, parse_edges):
     ed = [int(x) for x in edge.split()]
     parse_edges[ed[0]].append(ed[1])
     parse_edges[ed[1]].append(ed[0])
-    
-    return f"{ed[0]}, {ed[1]}"
-
 
 
 def parse_graph(initial_graph):
@@ -22,19 +18,38 @@ def parse_graph(initial_graph):
         edges = fp.readlines()
                 
         graph = open(f"{OUTPUT_FILENAME}",'w',encoding = 'utf-8')
-        
         graph.write(f"V={V};\n")
         graph.write(f"E={E};\n")
-        graph.write(f"EDGES=[|\n") 
         
         global parse_edges
         parse_edges = {List: [] for List in range(1, int(V)+1) } 
-        for edge in edges:
-            if edges.index(edge) == int(E) - 1:
-                graph.write(f"{read_nodes(edge, parse_edges)}|];\n")
+        for edge in edges: 
+            read_nodes(edge, parse_edges)
+            
+        max_len = int(len(max(parse_edges.values(), key=len)))
+        graph.write(f"MAXLEN={max_len};\n")
+        graph.write(f"EDGES=[|\n") 
+        for key, value in parse_edges.items():
+            filler = 0;
+            for e in value:
+                if(value.index(e) == max_len-1):
+                    graph.write(f"{e}")
+                else:
+                    graph.write(f"{e}, ")
+                    filler += 1
+                    
+            while(filler < max_len and len(value) < max_len):
+                if (filler == max_len -1  ):
+                     graph.write(f"0")
+                else:   
+                    graph.write(f"0, ")
+                filler += 1
+                
+            if (key == len(parse_edges)):
+                graph.write('|];\n')
             else:
-                graph.write(f"{read_nodes(edge, parse_edges)}|\n")
-        # print(parse_edges) 
+                graph.write('|\n')
+
     finally:    
         fp.close()
         graph.close()
