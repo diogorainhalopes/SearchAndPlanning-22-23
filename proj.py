@@ -4,6 +4,8 @@
 #C:\> assoc .py=Python
 #C:\> ftype Python="C:\python310\python.exe %1 %*"
 
+# todo: 
+
 import sys
 import os
 import random
@@ -14,7 +16,7 @@ from parse_solution import parse_solution
 MZ = "minizinc"
 MODEL = "model.mzn"
 SOLVER = "Chuffed"
-TEMP_SOLUTION = "temp_solution" + str(random.randint(0, 100000)) + ".txt"
+TEMP_SOLUTION = "temp_solution.txt"
 
 def main():
 

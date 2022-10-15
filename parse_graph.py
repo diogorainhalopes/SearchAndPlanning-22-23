@@ -34,7 +34,7 @@ def parse_graph(initial_graph):
                 graph.write(f"{read_nodes(edge, parse_edges)}|];\n")
             else:
                 graph.write(f"{read_nodes(edge, parse_edges)}|\n")
-                
+        # print(parse_edges) 
     finally:    
         fp.close()
         graph.close()

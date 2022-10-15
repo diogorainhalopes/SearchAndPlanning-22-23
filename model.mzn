@@ -12,7 +12,7 @@ int: MaxMoves;
 % vertices is sufficient and that the decision problem can be
 % solved in polynomial time
 
-% funtions
+% functions
 
 
 % sets
