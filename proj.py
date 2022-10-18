@@ -58,7 +58,6 @@ def main():
         os.system(f"{MZ} --solver {SOLVER} {MODEL} {graph} {scenario} {ms} > {TEMP_SOLUTION}")
         retry = parse_solution(f"{TEMP_SOLUTION}")
     os.remove(f"{TEMP_SOLUTION}")
-    signal.pause()
             
 if __name__ == "__main__":
     main()

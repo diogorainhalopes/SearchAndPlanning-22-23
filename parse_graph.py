@@ -1,4 +1,5 @@
 #!/usr/bin/python
+import os
 OUTPUT_FILENAME = "data/graph.dzn"
 
 def read_nodes(edge, parse_edges):
@@ -10,6 +11,7 @@ def read_nodes(edge, parse_edges):
 def parse_graph(initial_graph):
     try:
         global V
+        os.makedirs(os.path.dirname(OUTPUT_FILENAME), exist_ok=True)
         fp = open(f"{initial_graph}",'r',encoding = 'utf-8')
         V = fp.readline().strip()
         while(V[0] == "#"): 
@@ -19,7 +21,7 @@ def parse_graph(initial_graph):
                 
         graph = open(f"{OUTPUT_FILENAME}",'w',encoding = 'utf-8')
         graph.write(f"V={V};\n")
-        graph.write(f"E={E};\n")
+        #graph.write(f"E={E};\n")
         
         global parse_edges
         parse_edges = {List: [] for List in range(1, int(V)+1) } 

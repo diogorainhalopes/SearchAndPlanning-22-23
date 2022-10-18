@@ -1,3 +1,4 @@
+import os
 import parse_graph as pg
 import bfs
 
@@ -10,6 +11,7 @@ def read_positions(pos):
 
 def parse_scenario(initial_scenario):
     try:
+        os.makedirs(os.path.dirname(OUTPUT_FILENAME), exist_ok=True)
         #print("Parsing initial scenario configuration...")
         fp = open(f"{initial_scenario}",'r',encoding = 'utf-8')
         scenario = open(f"{OUTPUT_FILENAME}",'w',encoding = 'utf-8')
@@ -48,12 +50,7 @@ def parse_scenario(initial_scenario):
         makespans = bfs.len_bfs(pg.parse_edges, init, gl) 
         global max_ms 
         max_ms = max(makespans)-2
-        #scenario.write(f"minspan={max_ms};\n") 
-         
-        if ((int(pg.V)) - int(N) <= 3): 
-            scenario.write(f"MaxMoves={int(sum(makespans) * 1.2)};\n")  
-        else:
-            scenario.write(f"MaxMoves={int(sum(makespans))};\n")                                
+                                       
     finally:    
         fp.close()
         scenario.close()
