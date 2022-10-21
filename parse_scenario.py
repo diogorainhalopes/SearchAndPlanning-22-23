@@ -1,6 +1,8 @@
 import os
 import parse_graph as pg
-import bfs
+import numpy as np
+from dijkstar import Graph, find_path
+
 
 OUTPUT_FILENAME = "data/scenario.dzn"
 
@@ -35,7 +37,7 @@ def parse_scenario(initial_scenario):
             else: 
                 scenario.write(f"{temp}, ")
             
-        fp.readline() # skip GOAL line
+        fp.readline() 
 
         scenario.write(f"GOAL=[") 
         for i in range(int(N)):
@@ -46,10 +48,43 @@ def parse_scenario(initial_scenario):
                 scenario.write(f"{temp}];\n")
             else: 
                 scenario.write(f"{temp}, ")
+
+        distances = np.zeros([int(pg.V), int(N)], dtype=int)
         
-        makespans = bfs.len_bfs(pg.parse_edges, init, gl) 
+    
+        graph = Graph ()
+        for i in pg.parse_edges:
+            for j in pg.parse_edges[i]:
+                graph.add_edge(i, j, 1)
+                
+       
+        
+                
+        for i in range(0, int(pg.V)):
+            for j in range(0, int(N)):
+
+                distances[i][j] = find_path(graph, i+1, gl[j]).total_cost
+                
+        scenario.write(f"TIMES=[|\n") 
+        for i in range(0, len(distances)):
+            for j in range(0, len(distances[i])):
+                if(j == int(N)-1):
+                    scenario.write(f"{distances[i][j]}|")
+                else:
+                    scenario.write(f"{distances[i][j]}, ")
+            if(i == int(pg.V)-1):
+                scenario.write(f"];\n")
+            else:
+                scenario.write(f"\n")
+                
+                
+        
+        times = np.zeros( len(init), dtype=int)
+        for i in range(len(init)):
+            times[i] = len(find_path(graph, init[i], gl[i]).nodes)
+      
         global max_ms 
-        max_ms = max(makespans)-2
+        max_ms = max(times)
                                        
     finally:    
         fp.close()

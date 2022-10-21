@@ -1,0 +1,51 @@
+Search and Planning - Project Solution Summary
+Author: Diogo Lopes - ist196732
+Python Files:
+	My approach to create this tool was to separate different functions to different files.
+	
+    proj.py – File with main function. It also has the solution parsing function because my approach 
+    revolves around checking if the model is satisfied with a makespan value and if 
+    it’s not (the solution file says “unsatisfiable”), the tool runs the model again with the makespan 
+    parameter incremented by 1 (it creates a temporary solution files (temp_solution.txt)).
+	
+    parse_graph.py – Writes the number of vertexes, the vertex with the most adjacent vertexes 
+    and the list of edges to a .dzn file. The index of the list identifies the vertex and its value 
+    is a list of adjacent vertexes. Outputs to “data/graph.dzn”
+	
+    parse_scenario.py – Writes the number of agents, their initial and goal positions and an estimative 
+    of the worst-case max number of moves required for them to reach their destination. There is also another 
+    data structure with the minimum distance from each vertex to each agent goal (useful in the
+    last constraint). Outputs to “data/scenario.dzn”
+	
+    parse_minspan.py – Writes the minimum number of moves required for all agents to reach the goal. 
+    It’s first calculated by running a BFS through all the agents and giving the model the length of 
+    longest path, then it’s incremented every time the model fails with this value (this occurs in the parsing_solution function). Outputs to “data/minspan.dzn”
+	*(make sure to have dijkstar and numpy modules installed)*
+
+Model:
+Constraints – there’s a single constraint clause with all the limitations. It follows this format:
+
+The first move is equal to the initial position
+AND
+All agents are currently in different positions.
+AND
+(An agent doesn’t move in-between steps.
+OR
+(There’s an edge for the agent to move when it changes position.
+AND
+An agent doesn’t move to a position that was occupied in the previous step.))
+AND
+All moves differ from one another.
+AND
+After the goal is reached, all agents stay in the same vertexes.
+AND
+The minimum distance between the current vertex and its goal is less than
+the target makespan and the current move
+
+Observations: 
+
+When making the tools, the biggest bottlenecks in its performance (that I noticed) were that the 
+bigger the difference from the estimate to the real value of the minimum makespan, the worst performance
+it has because, every time it fails, it must recalculate all the moves from scratch. When there’s only 
+one free vertex to move to (sliding puzzle), the estimate is nowhere near the real value.
+
